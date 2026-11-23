@@ -237,7 +237,7 @@ def write_records(path, rows):
 
 def test_observer_reads_incrementally_and_dedupes(tmp_path):
     output = tmp_path / "output"
-    predictions = output / "predictions" / "fixture" / "gpqa.jsonl"
+    predictions = output / "20261123_080000" / "predictions" / "fixture" / "gpqa.jsonl"
     write_records(
         predictions,
         [
@@ -263,7 +263,7 @@ def test_observer_reads_incrementally_and_dedupes(tmp_path):
 
 def test_observer_bounds_details_and_resets_rewritten_file(tmp_path):
     output = tmp_path / "output"
-    predictions = output / "predictions" / "fixture" / "gpqa.jsonl"
+    predictions = output / "20261123_080000" / "predictions" / "fixture" / "gpqa.jsonl"
     write_records(
         predictions,
         [{"id": str(i), "online_badcase": {"reason": "short_cycle"}} for i in range(25)],

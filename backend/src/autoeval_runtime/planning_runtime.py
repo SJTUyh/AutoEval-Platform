@@ -548,14 +548,21 @@ class OnlineBadcaseObserver:
     )
 
     def __init__(self, output, model_abbr):
-        self.directory = Path(output) / "predictions" / str(model_abbr)
+        self.output = Path(output)
+        self.model_abbr = str(model_abbr)
         self._files = {}
         self._seen = set()
         self._details = []
 
     def poll(self):
-        if self.directory.is_dir():
-            for path in sorted(self.directory.glob("*.jsonl")):
+        # AISBench writes into a timestamped run directory below the work dir.
+        directories = sorted(
+            path
+            for path in self.output.rglob(self.model_abbr)
+            if path.is_dir() and path.parent.name == "predictions"
+        )
+        for directory in directories:
+            for path in sorted(directory.glob("*.jsonl")):
                 if path.is_symlink() or not path.is_file():
                     continue
                 self._read(path)
